@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Settings · 绫月乃萝粉丝站</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="icon" href="https://nora-cdn.warmrainday.workers.dev/images/avatar.jpg">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .settings-panel {
+      max-width: 900px;
+      margin: 80px auto;
+      padding: 0 24px;
+      position: relative;
+      z-index: 10;
+    }
+    .settings-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 32px;
+    }
+    .settings-header h1 {
+      font-family: "Cormorant Garamond", serif;
+      font-size: 2rem;
+      color: var(--lavender-dark);
+    }
+    .settings-tab {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 32px;
+      border-bottom: 1px solid rgba(181, 126, 220, 0.2);
+    }
+    .settings-tab button {
+      padding: 12px 24px;
+      background: none;
+      border: none;
+      color: var(--text-secondary);
+      font-size: 1rem;
+      cursor: pointer;
+      border-bottom: 2px solid transparent;
+      transition: all 0.3s;
+    }
+    .settings-tab button.active {
+      color: var(--lavender);
+      border-bottom-color: var(--lavender);
+    }
+    .settings-content {
+      background: var(--card-bg);
+      border-radius: var(--radius-lg);
+      padding: 32px;
+      box-shadow: var(--shadow-soft);
+    }
+    .settings-section { display: none; }
+    .settings-section.active { display: block; }
+    
+    .form-group {
+      margin-bottom: 20px;
+    }
+    .form-group label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 500;
+      color: var(--text-primary);
+    }
+    .form-group input,
+    .form-group textarea,
+    .form-group select {
+      width: 100%;
+      padding: 10px 16px;
+      border: 1px solid rgba(181, 126, 220, 0.3);
+      border-radius: var(--radius-sm);
+      background: var(--bg);
+      color: var(--text-primary);
+      font-size: 1rem;
+      outline: none;
+      transition: border-color 0.3s;
+    }
+    .form-group input:focus,
+    .form-group textarea:focus {
+      border-color: var(--lavender);
+      box-shadow: 0 0 0 3px var(--lavender-mist);
+    }
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+    
+    .theme-options {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+      gap: 12px;
+    }
+    .theme-option {
+      padding: 16px;
+      border: 2px solid transparent;
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      text-align: center;
+      transition: all 0.3s;
+    }
+    .theme-option.active {
+      border-color: var(--lavender);
+      box-shadow: var(--shadow-glow);
+    }
+    .theme-preview {
+      width: 100%;
+      height: 60px;
+      border-radius: var(--radius-sm);
+      margin-bottom: 8px;
+    }
+    .theme-name {
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+    }
+    
+    .image-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+      gap: 12px;
+    }
+    .image-item {
+      position: relative;
+      border-radius: var(--radius-sm);
+      overflow: hidden;
+      aspect-ratio: 1;
+    }
+    .image-item img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+    }
+    .image-item .delete-btn {
+      position: absolute;
+      top: 4px; right: 4px;
+      width: 24px; height: 24px;
+      border-radius: 50%;
+      background: rgba(0,0,0,0.6);
+      color: #fff;
+      border: none;
+      cursor: pointer;
+      font-size: 0.7rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    .image-item:hover .delete-btn { opacity: 1; }
+    
+    .upload-area {
+      border: 2px dashed rgba(181, 126, 220, 0.3);
+      border-radius: var(--radius-md);
+      padding: 32px;
+      text-align: center;
+      cursor: pointer;
+      transition: border-color 0.3s;
+    }
+    .upload-area:hover { border-color: var(--lavender); }
+    
+    .save-btn {
+      margin-top: 24px;
+      padding: 12px 40px;
+      background: linear-gradient(135deg, var(--lavender), var(--lavender-deep));
+      color: #fff;
+      border: none;
+      border-radius: var(--radius-sm);
+      font-size: 1rem;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    .save-btn:hover { transform: translateY(-2px); box-shadow: var(--shadow-medium); }
+    
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%) translateY(100px);
+      background: var(--lavender);
+      color: #fff;
+      padding: 12px 32px;
+      border-radius: 100px;
+      font-size: 0.9rem;
+      transition: transform 0.3s;
+      z-index: 9999;
+    }
+    .toast.show { transform: translateX(-50%) translateY(0); }
+    
+    @media (max-width: 768px) {
+      .form-row { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+<canvas id="petals"></canvas>
+
+<div class="settings-panel">
+  <div class="settings-header">
+    <h1>⚙️ 站点设置</h1>
+    <a href="/" class="btn btn-ghost btn-sm">← 返回首页</a>
+  </div>
+  
+  <div class="settings-tab">
+    <button class="active" data-tab="theme">主题</button>
+    <button data-tab="text">文本</button>
+    <button data-tab="images">图片</button>
+  </div>
+  
+  <div class="settings-content">
+    <!-- 主题 -->
+    <div class="settings-section active" id="tab-theme">
+      <h3>选择主题</h3>
+      <p style="color: var(--text-secondary); margin-bottom: 20px;">选择站点的主色调方案</p>
+      <div class="theme-options">
+        <div class="theme-option active" data-theme="lavender">
+          <div class="theme-preview" style="background: linear-gradient(135deg, #B57EDC, #E6D7F5);"></div>
+          <span class="theme-name">薰衣草紫</span>
+        </div>
+        <div class="theme-option" data-theme="dark">
+          <div class="theme-preview" style="background: linear-gradient(135deg, #1A1525, #C9A0E8);"></div>
+          <span class="theme-name">暗夜紫</span>
+        </div>
+        <div class="theme-option" data-theme="sakura">
+          <div class="theme-preview" style="background: linear-gradient(135deg, #FFD6E8, #B57EDC);"></div>
+          <span class="theme-name">樱花粉</span>
+        </div>
+        <div class="theme-option" data-theme="moonlight">
+          <div class="theme-preview" style="background: linear-gradient(135deg, #FFF8E7, #B57EDC);"></div>
+          <span class="theme-name">月光金</span>
+        </div>
+      </div>
+      <div style="margin-top: 24px;">
+        <h3>明暗模式</h3>
+        <p style="color: var(--text-secondary); margin-bottom: 12px;">切换亮色/暗色模式</p>
+        <button id="mode-toggle" class="btn btn-primary btn-sm">切换亮/暗</button>
+      </div>
+    </div>
+    
+    <!-- 文本 -->
+    <div class="settings-section" id="tab-text">
+      <div class="form-group">
+        <label>标语</label>
+        <input type="text" id="text-tagline" placeholder="你的赛博损友 · 猫猫画师 · 虚拟主播">
+      </div>
+      <div class="form-group">
+        <label>名言</label>
+        <input type="text" id="text-slogan" placeholder="有的时候就是想发发涩图">
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>B站链接</label>
+          <input type="text" id="text-bilibili" placeholder="https://space.bilibili.com/86471108">
+        </div>
+        <div class="form-group">
+          <label>直播间链接</label>
+          <input type="text" id="text-live" placeholder="https://live.bilibili.com/3790472">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Pixiv 链接</label>
+          <input type="text" id="text-pixiv" placeholder="https://www.pixiv.net/users/36966416">
+        </div>
+        <div class="form-group">
+          <label>Twitter 链接</label>
+          <input type="text" id="text-twitter" placeholder="https://x.com/Ayatsuki_Nora">
+        </div>
+      </div>
+      <div class="form-group">
+        <label>图片点击跳转URL (可选)</label>
+        <input type="text" id="text-image-link" placeholder="点击图片跳转的链接">
+      </div>
+      <button class="save-btn" id="save-text">保存</button>
+    </div>
+    
+    <!-- 图片 -->
+    <div class="settings-section" id="tab-images">
+      <h3>上传新图片</h3>
+      <div class="upload-area" id="upload-area">
+        <p>📁 点击或拖拽图片到此处上传</p>
+        <p style="font-size: 0.85rem; color: var(--text-secondary); margin-top: 8px;">支持 JPG, PNG · 最大 10MB</p>
+        <input type="file" id="upload-input" accept="image/*" style="display: none;" multiple>
+        <select id="upload-category" style="margin-top: 12px; padding: 8px; border-radius: 8px; border: 1px solid rgba(181,126,220,0.3); background: var(--bg); color: var(--text-primary);">
+          <option value="pixiv_hd">插画</option>
+          <option value="vid">视频封面</option>
+          <option value="goods">商品图</option>
+          <option value="uploads">其他</option>
+        </select>
+      </div>
+      
+      <h3 style="margin-top: 32px;">现有图片</h3>
+      <div class="image-grid" id="image-list">
+        <!-- JS 生成 -->
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+  // 主题切换
+  const themeOptions = document.querySelectorAll('.theme-option');
+  themeOptions.forEach(opt => {
+    opt.addEventListener('click', () => {
+      themeOptions.forEach(o => o.classList.remove('active'));
+      opt.classList.add('active');
+    });
+  });
+  
+  document.getElementById('mode-toggle').addEventListener('click', () => {
+    const html = document.documentElement;
+    const current = html.getAttribute('data-theme');
+    const next = current === 'dark' ? 'light' : 'dark';
+    html.setAttribute('data-theme', next);
+    localStorage.setItem('nora-theme', next);
+  });
+  
+  // Tab 切换
+  document.querySelectorAll('.settings-tab button').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.settings-tab button').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.settings-section').forEach(s => s.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
+    });
+  });
+  
+  // 加载现有配置
+  const config = JSON.parse(localStorage.getItem('nora-config') || '{}');
+  if (config.tagline) document.getElementById('text-tagline').value = config.tagline;
+  if (config.slogan) document.getElementById('text-slogan').value = config.slogan;
+  if (config.bilibili) document.getElementById('text-bilibili').value = config.bilibili;
+  if (config.live) document.getElementById('text-live').value = config.live;
+  if (config.pixiv) document.getElementById('text-pixiv').value = config.pixiv;
+  if (config.twitter) document.getElementById('text-twitter').value = config.twitter;
+  if (config.imageLink) document.getElementById('text-image-link').value = config.imageLink;
+  
+  // 保存文本配置
+  document.getElementById('save-text').addEventListener('click', () => {
+    const newConfig = {
+      tagline: document.getElementById('text-tagline').value,
+      slogan: document.getElementById('text-slogan').value,
+      bilibili: document.getElementById('text-bilibili').value,
+      live: document.getElementById('text-live').value,
+      pixiv: document.getElementById('text-pixiv').value,
+      twitter: document.getElementById('text-twitter').value,
+      imageLink: document.getElementById('text-image-link').value,
+    };
+    localStorage.setItem('nora-config', JSON.stringify(newConfig));
+    showToast('保存成功！');
+  });
+  
+  // 图片列表
+  const cdnBase = 'https://nora-cdn.warmrainday.workers.dev/images/';
+  const imageList = document.getElementById('image-list');
+  const allImages = [
+    'avatar.jpg',
+    'pixiv_hd_1.jpg', 'pixiv_hd_2.jpg', 'pixiv_hd_3.jpg', 'pixiv_hd_5.jpg',
+    'pixiv_hd_6.jpg', 'pixiv_hd_7.jpg', 'pixiv_hd_9.jpg', 'pixiv_hd_10.jpg', 'pixiv_hd_12.jpg',
+    'vid_1.jpg', 'vid_2.jpg', 'vid_3.jpg', 'vid_4.jpg', 'vid_5.jpg', 'vid_8.jpg',
+    'goods_1.png', 'goods_2.jpg', 'goods_3.jpg', 'goods_4.jpg',
+  ];
+  
+  allImages.forEach(name => {
+    const item = document.createElement('div');
+    item.className = 'image-item';
+    item.innerHTML = `
+      <img src="${cdnBase}${name}" alt="${name}" loading="lazy">
+      <button class="delete-btn" data-name="${name}">✕</button>
+    `;
+    imageList.appendChild(item);
+  });
+  
+  // 删除图片
+  document.querySelectorAll('.delete-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      if (confirm(`确认删除 ${btn.dataset.name}?`)) {
+        showToast('需要后端 API 支持删除功能');
+      }
+    });
+  });
+  
+  // 上传
+  const uploadArea = document.getElementById('upload-area');
+  const uploadInput = document.getElementById('upload-input');
+  uploadArea.addEventListener('click', () => uploadInput.click());
+  uploadArea.addEventListener('dragover', (e) => { e.preventDefault(); uploadArea.style.borderColor = 'var(--lavender)'; });
+  uploadArea.addEventListener('dragleave', () => { uploadArea.style.borderColor = ''; });
+  uploadArea.addEventListener('drop', (e) => {
+    e.preventDefault();
+    uploadArea.style.borderColor = '';
+    handleUpload(e.dataTransfer.files);
+  });
+  uploadInput.addEventListener('change', (e) => handleUpload(e.target.files));
+  
+  function handleUpload(files) {
+    const category = document.getElementById('upload-category').value;
+    for (const file of files) {
+      const formData = new FormData();
+      formData.append('file', file);
+      formData.append('category', category);
+      // POST /upload - 需要 Worker 后端支持
+      showToast(`上传中: ${file.name}`);
+    }
+  }
+  
+  function showToast(msg) {
+    const toast = document.getElementById('toast');
+    toast.textContent = msg;
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), 3000);
+  }
+  
+  // 粒子画布 (复用首页效果)
+  const canvas = document.getElementById('petals');
+  const ctx = canvas.getContext('2d');
+  let W, H;
+  function resize() { W = canvas.width = innerWidth; H = canvas.height = innerHeight; }
+  resize(); addEventListener('resize', resize);
+  
+  const petals = [];
+  const petalPath = new Path2D();
+  petalPath.moveTo(0,-8);
+  petalPath.quadraticCurveTo(6,-4,5,2);
+  petalPath.quadraticCurveTo(2,8,0,6);
+  petalPath.quadraticCurveTo(-2,8,-5,2);
+  petalPath.quadraticCurveTo(-6,-4,0,-8);
+  
+  class Petal {
+    constructor(){this.reset(true)}
+    reset(init){this.x=Math.random()*W;this.y=init?Math.random()*H:-20;this.size=.6+Math.random()*.8;this.sY=.3+Math.random()*.8;this.sX=(Math.random()-.5)*.5;this.rot=Math.random()*6.28;this.rS=(Math.random()-.5)*.02;this.op=.3+Math.random()*.4;const c=['#B57EDC','#C9A0E8','#E6D7F5','#FFD6E8'];this.color=c[Math.floor(Math.random()*c.length)]}
+    update(){this.y+=this.sY;this.x+=this.sX;this.rot+=this.rS;if(this.y>H+20)this.reset(false)}
+    draw(){ctx.save();ctx.translate(this.x,this.y);ctx.rotate(this.rot);ctx.scale(this.size,this.size);ctx.globalAlpha=this.op;ctx.fillStyle=this.color;ctx.fill(petalPath);ctx.restore()}
+  }
+  for(let i=0;i<20;i++)petals.push(new Petal());
+  function anim(){ctx.clearRect(0,0,W,H);petals.forEach(p=>{p.update();p.draw()});requestAnimationFrame(anim)}
+  anim();
+</script>
+</body>
+</html>
