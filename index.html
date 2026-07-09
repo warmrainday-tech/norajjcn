@@ -3,44 +3,31 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>绫月乃萝 Ayatsuki Nora · 赛博损友电台</title>
+  <title>绫月乃萝 Ayatsuki Nora</title>
   <meta name="description" content="绫月乃萝 - 猫猫画师 + 虚拟主播，你的赛博损友">
-  <link rel="icon" href="https://nora-cdn.warmrainday.workers.dev/images/avatar.jpg">
-  
-  <!-- Fonts -->
+  <link rel="icon" href="assets/images/avatar.jpg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Noto+Sans+SC:wght@300;400;500;700&family=Caveat:wght@400;700&display=swap" rel="stylesheet">
-  
-  <!-- GSAP -->
-  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
-  
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<!-- ===== 粒子画布 ===== -->
-<canvas id="petals"></canvas>
-
-<!-- ===== 导航 ===== -->
-<nav id="navbar" class="navbar">
+<!-- 导航 -->
+<nav id="navbar">
   <div class="nav-inner">
     <a href="#hero" class="nav-logo">
-      <img src="https://nora-cdn.warmrainday.workers.dev/images/avatar.jpg" alt="Nora" class="nav-avatar">
+      <img src="assets/images/avatar.jpg" alt="Nora" class="nav-avatar">
       <span>绫月乃萝</span>
     </a>
-    <div class="nav-links">
+    <div class="nav-links" id="nav-links">
       <a href="#about">关于</a>
       <a href="#gallery">画廊</a>
-      <a href="#timeline">时间轴</a>
-      <a href="#quotes">语录</a>
-      <a href="#fanwall">留言</a>
       <a href="#links">链接</a>
     </div>
     <button id="theme-toggle" class="theme-toggle" aria-label="切换主题">
-      <svg class="icon-sun" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
-      <svg class="icon-moon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      <svg class="icon-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+      <svg class="icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
     </button>
     <button class="nav-burger" id="nav-burger" aria-label="菜单">
       <span></span><span></span><span></span>
@@ -48,9 +35,9 @@
   </div>
 </nav>
 
-<!-- ===== HERO ===== -->
-<section id="hero" class="hero">
-  <div class="hero-bg-blobs">
+<!-- Hero -->
+<section id="hero">
+  <div class="hero-bg">
     <div class="blob blob-1"></div>
     <div class="blob blob-2"></div>
     <div class="blob blob-3"></div>
@@ -58,57 +45,50 @@
   <div class="hero-content">
     <div class="hero-avatar-wrap">
       <div class="hero-avatar-ring"></div>
-      <img src="https://nora-cdn.warmrainday.workers.dev/images/avatar.jpg" alt="绫月乃萝" class="hero-avatar" id="hero-avatar">
+      <img src="assets/images/avatar.jpg" alt="绫月乃萝" class="hero-avatar">
     </div>
-    <h1 class="hero-title">
-      <span class="title-jp">あやつき</span>
-      <span class="title-cn">绫月乃萝</span>
-    </h1>
-    <p class="hero-tagline" id="hero-tagline">你的赛博损友 · 猫猫画师 · 虚拟主播</p>
-    <p class="hero-slogan" id="hero-slogan">"有的时候就是想发发涩图"</p>
+    <p class="hero-jp">あやつき</p>
+    <h1 class="hero-name">绫月乃萝</h1>
+    <p class="hero-tagline">猫猫画师 · 虚拟主播 · 你的赛博损友</p>
+    <p class="hero-slogan">"有的时候就是想发发涩图"</p>
     <div class="hero-cta">
-      <a href="https://live.bilibili.com/3790472" target="_blank" class="btn btn-primary">
-        <span>观看直播</span>
-      </a>
-      <a href="https://space.bilibili.com/86471108" target="_blank" class="btn btn-ghost">
-        <span>B站主页</span>
-      </a>
+      <a href="https://live.bilibili.com/3790472" target="_blank" class="btn btn-primary">观看直播</a>
+      <a href="https://space.bilibili.com/86471108" target="_blank" class="btn btn-ghost">B站主页</a>
     </div>
-    <div class="hero-birthday" id="birthday-badge">
-      <span>🎂 4月21日 · 下一个生日</span>
+    <div class="hero-birthday">
+      <span>🎂 4/21 · 生日倒计时</span>
       <span class="birthday-countdown" id="birthday-countdown">--</span>
     </div>
   </div>
   <div class="scroll-hint">
-    <span>Scroll</span>
+    <span>SCROLL</span>
     <div class="scroll-line"></div>
   </div>
 </section>
 
-<!-- ===== ABOUT ===== -->
-<section id="about" class="section about">
+<!-- About -->
+<section id="about" class="section">
   <div class="container">
-    <h2 class="section-title" data-reveal>About <span class="accent">乃萝</span></h2>
+    <h2 class="section-title">关于 <span class="accent">乃萝</span></h2>
     <div class="about-grid">
-      <div class="about-image" data-reveal>
-        <img src="https://nora-cdn.warmrainday.workers.dev/images/pixiv_hd_1.jpg" alt="乃萝插画" loading="lazy">
-        <div class="about-image-glow"></div>
+      <div class="about-image">
+        <img src="assets/images/pixiv_hd_1.jpg" alt="乃萝插画" loading="lazy">
       </div>
-      <div class="about-text" data-reveal>
+      <div class="about-text">
         <p class="about-quote">"有的时候就是想发发涩图"</p>
         <p>绫月乃萝（あやつき / Ayatsuki Nora），一位自称"你的赛博损友"的猫猫画师兼虚拟主播。4月21日生，在 B站和 Twitter 活跃，用画笔和直播陪伴着每一位观众。</p>
         <p>她既是画师，用细腻的笔触创作出一幅幅动人的插画；也是虚拟主播，在直播间里与粉丝打成一片，自称"损友"而非偶像，距离感恰到好处。</p>
         <div class="about-stats">
           <div class="stat">
-            <span class="stat-num" data-count="21000">0</span>
+            <span class="stat-num">21K+</span>
             <span class="stat-label">B站粉丝</span>
           </div>
           <div class="stat">
-            <span class="stat-num" data-count="421">0</span>
-            <span class="stat-label">生日 (4/21)</span>
+            <span class="stat-num">4/21</span>
+            <span class="stat-label">生日</span>
           </div>
           <div class="stat">
-            <span class="stat-num" data-count="60">0</span>
+            <span class="stat-num">60</span>
             <span class="stat-label">表情包</span>
           </div>
         </div>
@@ -117,149 +97,52 @@
   </div>
 </section>
 
-<!-- ===== GALLERY ===== -->
-<section id="gallery" class="section gallery">
+<!-- Gallery -->
+<section id="gallery" class="section">
   <div class="container">
-    <h2 class="section-title" data-reveal>插画 <span class="accent">画廊</span></h2>
-    <p class="section-sub" data-reveal>来自 Pixiv 的精选作品</p>
-    <div class="gallery-grid" id="gallery-grid">
-      <!-- JS 生成 -->
-    </div>
+    <h2 class="section-title">插画 <span class="accent">画廊</span></h2>
+    <div class="gallery-grid" id="gallery-grid"></div>
   </div>
 </section>
 
-<!-- ===== TIMELINE ===== -->
-<section id="timeline" class="section timeline-section">
+<!-- Links -->
+<section id="links" class="section">
   <div class="container">
-    <h2 class="section-title" data-reveal>重要 <span class="accent">时刻</span></h2>
-    <div class="timeline">
-      <div class="timeline-item" data-reveal>
-        <div class="timeline-dot"></div>
-        <div class="timeline-content">
-          <span class="timeline-date">活跃中</span>
-          <h3>B站虚拟主播</h3>
-          <p>在B站直播间与粉丝互动，画画、聊天、游戏，自称"赛博损友"</p>
-          <a href="https://live.bilibili.com/3790472" target="_blank" class="timeline-link">直播间 →</a>
-        </div>
-      </div>
-      <div class="timeline-item" data-reveal>
-        <div class="timeline-dot"></div>
-        <div class="timeline-content">
-          <span class="timeline-date">持续更新</span>
-          <h3>Pixiv 画师</h3>
-          <p>在 Pixiv 持续发布插画作品，风格细腻动人</p>
-          <a href="https://www.pixiv.net/users/36966416" target="_blank" class="timeline-link">Pixiv 主页 →</a>
-        </div>
-      </div>
-      <div class="timeline-item" data-reveal>
-        <div class="timeline-dot"></div>
-        <div class="timeline-content">
-          <span class="timeline-date">2.1万+</span>
-          <h3>B站 21,000+ 粉丝</h3>
-          <p>从零开始积累的粉丝群体，每一个关注都是陪伴</p>
-          <a href="https://space.bilibili.com/86471108" target="_blank" class="timeline-link">B站主页 →</a>
-        </div>
-      </div>
-      <div class="timeline-item" data-reveal>
-        <div class="timeline-dot"></div>
-        <div class="timeline-content">
-          <span class="timeline-date">4月21日</span>
-          <h3>猫猫的生日</h3>
-          <p>每年4月21日，是乃萝的生日，也是粉丝们的狂欢日</p>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ===== QUOTES ===== -->
-<section id="quotes" class="section quotes">
-  <div class="container">
-    <h2 class="section-title" data-reveal>乃萝 <span class="accent">语录</span></h2>
-    <div class="quotes-grid">
-      <div class="quote-card" data-reveal>
-        <p class="quote-text">"有的时候就是想发发涩图"</p>
-        <span class="quote-author">— 乃萝的名言</span>
-      </div>
-      <div class="quote-card" data-reveal>
-        <p class="quote-text">"你的赛博损友"</p>
-        <span class="quote-author">— 自我介绍</span>
-      </div>
-      <div class="quote-card" data-reveal>
-        <p class="quote-text">"猫猫画师，在线发癫"</p>
-        <span class="quote-author">— 日常状态</span>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ===== FAN WALL ===== -->
-<section id="fanwall" class="section fan-wall">
-  <div class="container">
-    <h2 class="section-title" data-reveal>粉丝 <span class="accent">留言</span></h2>
-    <p class="section-sub" data-reveal>给乃萝的一句话</p>
-    <div class="fanwall-input-wrap" data-reveal>
-      <input type="text" id="fanwall-input" class="fanwall-input" placeholder="写下你想对乃萝说的话..." maxlength="50">
-      <button id="fanwall-submit" class="btn btn-primary btn-sm">发送</button>
-    </div>
-    <div class="danmaku-wall" id="danmaku-wall">
-      <!-- 弹幕留言 -->
-    </div>
-  </div>
-</section>
-
-<!-- ===== LINKS ===== -->
-<section id="links" class="section links-section">
-  <div class="container">
-    <h2 class="section-title" data-reveal>关注 <span class="accent">乃萝</span></h2>
+    <h2 class="section-title">关注 <span class="accent">乃萝</span></h2>
     <div class="links-grid">
-      <a href="https://space.bilibili.com/86471108" target="_blank" class="link-card" data-reveal>
+      <a href="https://space.bilibili.com/86471108" target="_blank" class="link-card">
         <div class="link-icon">📺</div>
-        <div class="link-info">
-          <h3>Bilibili</h3>
-          <p>@Ayatsuki_Nora · 2.1万粉</p>
-        </div>
+        <div><h3>Bilibili</h3><p>21K 粉丝</p></div>
       </a>
-      <a href="https://live.bilibili.com/3790472" target="_blank" class="link-card" data-reveal>
+      <a href="https://live.bilibili.com/3790472" target="_blank" class="link-card">
         <div class="link-icon">🔴</div>
-        <div class="link-info">
-          <h3>直播间</h3>
-          <p>B站直播 · 房间号 3790472</p>
-        </div>
+        <div><h3>直播间</h3><p>房间号 3790472</p></div>
       </a>
-      <a href="https://www.pixiv.net/users/36966416" target="_blank" class="link-card" data-reveal>
+      <a href="https://www.pixiv.net/users/36966416" target="_blank" class="link-card">
         <div class="link-icon">🎨</div>
-        <div class="link-info">
-          <h3>Pixiv</h3>
-          <p>插画作品 · id: 36966416</p>
-        </div>
+        <div><h3>Pixiv</h3><p>id: 36966416</p></div>
       </a>
-      <a href="https://x.com/Ayatsuki_Nora" target="_blank" class="link-card" data-reveal>
+      <a href="https://x.com/Ayatsuki_Nora" target="_blank" class="link-card">
         <div class="link-icon">🐦</div>
-        <div class="link-info">
-          <h3>Twitter / X</h3>
-          <p>@Ayatsuki_Nora</p>
-        </div>
+        <div><h3>Twitter / X</h3><p>@Ayatsuki_Nora</p></div>
       </a>
     </div>
   </div>
 </section>
 
-<!-- ===== FOOTER ===== -->
-<footer class="footer">
+<!-- Footer -->
+<footer>
   <div class="container">
-    <div class="footer-content">
-      <div class="footer-logo">
-        <img src="https://nora-cdn.warmrainday.workers.dev/images/avatar.jpg" alt="Nora" class="footer-avatar">
-        <span>绫月乃萝 · あやつき</span>
-      </div>
-      <p class="footer-text">猫猫画师 + 虚拟主播 · 你的赛博损友</p>
-      <p class="footer-copy">© 2024-2026 Fan-made with 💜 · 非官方粉丝站</p>
+    <div class="footer-logo">
+      <img src="assets/images/avatar.jpg" alt="Nora" class="footer-avatar">
+      <span>绫月乃萝 · あやつき</span>
     </div>
+    <p class="footer-text">猫猫画师 + 虚拟主播 · 你的赛博损友</p>
+    <p class="footer-copy">© 2024-2026 Fan-made with 💜</p>
   </div>
 </footer>
 
-<!-- ===== Lightbox ===== -->
+<!-- Lightbox -->
 <div id="lightbox" class="lightbox">
   <button class="lightbox-close" id="lightbox-close">✕</button>
   <button class="lightbox-prev" id="lightbox-prev">‹</button>
@@ -267,8 +150,6 @@
   <button class="lightbox-next" id="lightbox-next">›</button>
 </div>
 
-<style></style>
-<link rel="stylesheet" href="style.css">
 <script src="app.js"></script>
 </body>
 </html>
